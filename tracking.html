@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SITTA - Tracking Pengiriman</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="bg-soft">
+    <header class="site-header">
+      <nav class="nav container" aria-label="Utama">
+        <div class="logo"><a href="dashboard.html" class="link">SITTA - UT</a></div>
+        <div>
+          <a href="stok.html" class="link">Stok Bahan Ajar</a> &nbsp;
+          <a href="dashboard.html" class="link">Dashboard</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container" role="main">
+      <section class="card">
+        <h2>📦 Tracking Pengiriman</h2>
+        <p class="small" style="margin-top: 8px; margin-bottom: 24px;">
+          Lacak status pengiriman bahan ajar Anda dengan memasukkan nomor DO
+        </p>
+
+        <form id="trackForm" style="max-width: 500px;">
+          <label for="doNumber">Nomor DO (Delivery Order)</label>
+          <input
+            type="text"
+            id="doNumber"
+            name="doNumber"
+            placeholder="Contoh: 2023001234"
+            required
+            maxlength="10"
+            pattern="[0-9]{10}"
+          />
+          <p class="small" style="margin-top: 4px; margin-bottom: 12px;">
+            Format: 10 digit angka
+          </p>
+          <button type="submit" style="width: 100%;">
+            🔍 Lacak Pengiriman
+          </button>
+        </form>
+
+        <!-- Sample DO numbers hint -->
+        <div style="margin-top: 24px; padding: 16px; background: var(--gray-light); border-radius: 8px;">
+          <div style="font-weight: 600; margin-bottom: 8px;">💡 Nomor DO Demo:</div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <code style="padding: 6px 12px; background: white; border-radius: 4px; font-size: 13px;">2023001234</code>
+            <code style="padding: 6px 12px; background: white; border-radius: 4px; font-size: 13px;">2023005678</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- Result container -->
+      <div id="trackResult"></div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/tracking.js"></script>
+  </body>
+</html>

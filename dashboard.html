@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SITTA - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="bg-soft">
+    <header class="site-header">
+      <nav class="nav container" aria-label="Utama">
+        <div class="logo">SITTA - UT</div>
+        <div>
+          <button id="logoutBtn" class="btn-ghost">🚪 Logout</button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container" role="main">
+      <!-- Greeting Card -->
+      <section class="card greeting" aria-live="polite">
+        <h2 id="greeting">Selamat Datang</h2>
+        <p id="userInfo" style="margin-top: 8px; font-size: 18px; opacity: 0.95;"></p>
+      </section>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value" id="totalItems">-</div>
+          <div class="stat-label">Total Bahan Ajar</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="totalUsers">-</div>
+          <div class="stat-label">Total Pengguna</div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <section class="grid-2" style="margin-top: 20px;">
+        <!-- Menu Navigation -->
+        <nav class="card">
+          <h3>📋 Menu Utama</h3>
+          <ul class="menu-list">
+            <li>
+              <a href="stok.html">
+                📚 Informasi Bahan Ajar (Stok)
+              </a>
+            </li>
+            <li>
+              <a href="tracking.html">
+                📦 Tracking Pengiriman
+              </a>
+            </li>
+            <li>
+              <a href="#" style="opacity: 0.5; cursor: not-allowed;">
+                📊 Laporan & Monitoring (Coming Soon)
+              </a>
+            </li>
+            <li>
+              <a href="#" style="opacity: 0.5; cursor: not-allowed;">
+                🕐 Histori Transaksi (Coming Soon)
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Info Panel -->
+        <aside class="card">
+          <h3>ℹ️ Informasi</h3>
+          <div style="margin-top: 16px;">
+            <div style="padding: 12px; background: var(--gray-light); border-radius: 8px; margin-bottom: 12px;">
+              <div style="font-weight: 600; margin-bottom: 4px;">📌 Quick Tips</div>
+              <div style="font-size: 13px; color: var(--gray);">
+                Gunakan menu di samping untuk navigasi ke fitur-fitur utama sistem.
+              </div>
+            </div>
+            
+            <div style="padding: 12px; background: var(--gray-light); border-radius: 8px; margin-bottom: 12px;">
+              <div style="font-weight: 600; margin-bottom: 4px;">🎨 Tampilan</div>
+              <div style="font-size: 13px; color: var(--gray);">
+                Di halaman stok, Anda dapat toggle antara tampilan Grid dan Tabel.
+              </div>
+            </div>
+
+            <div style="padding: 12px; background: var(--gray-light); border-radius: 8px;">
+              <div style="font-weight: 600; margin-bottom: 4px;">🔔 Update</div>
+              <div style="font-size: 13px; color: var(--gray);">
+                Sistem telah diperbarui dengan tampilan modern dan user-friendly.
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script>
+      // Dashboard inline logic
+      (function () {
+        try {
+          // Require user logged in
+          const userStr = localStorage.getItem("sittaUser");
+          if (!userStr) {
+            location.href = "index.html";
+            return;
+          }
+
+          let user;
+          try {
+            user = JSON.parse(userStr);
+          } catch (parseError) {
+            alert("Error saat membaca data login: " + parseError.message);
+            localStorage.removeItem("sittaUser");
+            location.href = "index.html";
+            return;
+          }
+
+          if (!user || !user.nama) {
+            alert("Data login tidak valid!");
+            localStorage.removeItem("sittaUser");
+            location.href = "index.html";
+            return;
+          }
+
+          // Greeting based on time
+          const now = new Date();
+          const h = now.getHours();
+          let greet = "Selamat";
+          if (h >= 4 && h < 11) greet = "Selamat Pagi";
+          else if (h >= 11 && h < 15) greet = "Selamat Siang";
+          else if (h >= 15 && h < 18) greet = "Selamat Sore";
+          else greet = "Selamat Malam";
+
+          const greetingEl = document.getElementById("greeting");
+          const userInfoEl = document.getElementById("userInfo");
+
+          if (greetingEl) {
+            greetingEl.textContent = `${greet}, ${user.nama}! 👋`;
+          }
+
+          if (userInfoEl) {
+            userInfoEl.textContent = `${user.role} • ${user.lokasi}`;
+          }
+
+          // Update counts
+          const totalItemsEl = document.getElementById("totalItems");
+          const totalUsersEl = document.getElementById("totalUsers");
+
+          if (totalItemsEl) {
+            const itemCount = window.dataBahanAjar ? window.dataBahanAjar.length : 0;
+            totalItemsEl.textContent = itemCount;
+          }
+
+          if (totalUsersEl) {
+            const userCount = window.dataPengguna ? window.dataPengguna.length : 0;
+            totalUsersEl.textContent = userCount;
+          }
+
+          // Logout handler
+          const logoutBtn = document.getElementById("logoutBtn");
+          if (logoutBtn) {
+            logoutBtn.addEventListener("click", function () {
+              try {
+                if (confirm("Apakah Anda yakin ingin logout?")) {
+                  localStorage.removeItem("sittaUser");
+                  location.href = "index.html";
+                }
+              } catch (e) {
+                alert("Error saat logout: " + e.message);
+              }
+            });
+          }
+        } catch (e) {
+          alert("Error saat inisialisasi dashboard: " + e.message);
+          location.href = "index.html";
+        }
+      })();
+    </script>
+  </body>
+</html>

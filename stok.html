@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SITTA - Stok Bahan Ajar</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="bg-soft">
+    <header class="site-header">
+      <nav class="nav container" aria-label="Utama">
+        <div class="logo"><a href="dashboard.html" class="link">SITTA - UT</a></div>
+        <div>
+          <a href="tracking.html" class="link">Tracking</a> &nbsp;
+          <a href="dashboard.html" class="link">Dashboard</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container" role="main">
+      <section class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+          <div>
+            <h2 style="margin: 0;">Koleksi Bahan Ajar</h2>
+            <p class="small" style="margin-top: 4px;">
+              Menampilkan <span id="totalBooks">0</span> bahan ajar tersedia
+            </p>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div class="view-toggle">
+              <button id="gridViewBtn" class="active">📱 Grid</button>
+              <button id="tableViewBtn">📊 Tabel</button>
+            </div>
+            <button id="addBtn">➕ Tambah Bahan Ajar</button>
+          </div>
+        </div>
+
+        <!-- Grid View (Default) -->
+        <div id="gridView" class="books-grid"></div>
+
+        <!-- Table View -->
+        <div id="tableView" class="table-wrap" style="display: none;">
+          <table id="stokTable" class="table" aria-describedby="stokDesc">
+            <caption id="stokDesc" style="display: none;">
+              Tabel stok bahan ajar
+            </caption>
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Kode Lokasi</th>
+                <th>Kode Barang</th>
+                <th>Nama Barang</th>
+                <th>Jenis</th>
+                <th>Edisi</th>
+                <th>Stok</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal tambah -->
+    <div id="modalAdd" class="modal" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <span class="close" data-close="modalAdd">&times;</span>
+        <h3>Tambah Bahan Ajar Baru</h3>
+        <form id="addForm">
+          <label for="kodeLok">Kode Lokasi</label>
+          <input id="kodeLok" placeholder="Contoh: 0JKT01" required />
+
+          <label for="kodeBrg">Kode Barang</label>
+          <input id="kodeBrg" placeholder="Contoh: EKMA4216" required />
+
+          <label for="namaBrg">Nama Barang</label>
+          <input id="namaBrg" placeholder="Nama bahan ajar" required />
+
+          <label for="jenisBrg">Jenis Barang</label>
+          <input id="jenisBrg" placeholder="Contoh: BMP" required />
+
+          <label for="edisiBrg">Edisi</label>
+          <input id="edisiBrg" placeholder="Contoh: 2" required />
+
+          <label for="stokBrg">Stok</label>
+          <input id="stokBrg" type="number" min="0" placeholder="Jumlah stok" required />
+
+          <button type="submit" style="margin-top: 16px; width: 100%;">Tambah Bahan Ajar</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/stock.js"></script>
+  </body>
+</html>
